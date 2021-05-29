@@ -1,0 +1,5 @@
+  <form class="form-inline justify-content-end mt-2" method="POST" action="{% url 'search' %}">
+      {% csrf_token %}
+      <input class="form-control mr-sm-2" name="search_value" value="{{search_input}}" placeholder="Search blog title here">
+      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+  </form>

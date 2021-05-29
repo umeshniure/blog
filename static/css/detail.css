@@ -1,0 +1,25 @@
+body{
+    background-color: #fdfdfd;
+    font-style : "Roboto";
+    color : rgb(10, 10, 10);
+}
+
+.masthead {
+    background: #FF0000;
+    color: #FFFFFF;
+    height: auto;
+    padding-bottom: 15px;
+    box-shadow: 0 5px 10px #E3E7EB;
+    padding-top: 10px;
+}
+
+.card {
+    box-shadow: 0 16px 48px #E3E7EB;
+    box-border: 2px;
+}
+
+.container {
+    height: 100%;
+    width: 65%;
+}
+

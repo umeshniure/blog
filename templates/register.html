@@ -1,0 +1,89 @@
+{% extends 'top.html' %}
+{% load static %}
+<!--{% block title %} Sign Up {% endblock %}-->
+
+{% block content %}
+<!--<h4S align="center">Sign Up</h4S>-->
+<!--<div align="center">-->
+<!--    <table>-->
+<!--        <form action="{% url 'register' %}" method="post">-->
+<!--            {% csrf_token %}-->
+<!--            First Name : <input type="text" name="first_name" placeholder="First Name"><br>-->
+<!--            Last Name : <input type="text" name="last_name" placeholder="Last Name"><br>-->
+<!--            Email : <input type="email" name="email" placeholder="Email"><br>-->
+<!--            Username : <input type="text" name="username" placeholder="UserName"><br>-->
+<!--            Password : <input type="password" name="password1" placeholder="Password"><br>-->
+<!--            Confirm Password : <input type="password" name="password2" placeholder="Confirm Password"><br><br>-->
+
+<!--            <button type="submit">Sign up</button>-->
+
+<!--        </form>-->
+<!--        <div>-->
+<!--            {% for message in messages %}-->
+<!--            <h4> {{message}}</h4>-->
+<!--            {% endfor %}-->
+<!--        </div>-->
+<!--    </table>-->
+<!--</div>-->
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static '/css/register.css' %}">
+        <title>Sign Up</title>
+    </head>
+    <body>
+        <form method="post" action="{% url 'register' %}" style="border:1px solid #ccc">
+            {% csrf_token %}
+          <div class="container">
+            <h4>Sign Up</h4>
+            <p>Please fill in this form to create an account.</p>
+            {% for message in messages %}
+              <h7 style="color:red;"> {{message}}<br></h7>
+            {% endfor %}
+            <hr>
+                <label for="first_name"><b>First Name</b></label>
+                <input type="text" placeholder="Enter First Name" name="first_name" required>
+
+                <label for="last_name"><b>Last Name</b></label>
+                <input type="text" placeholder="Enter Last Name" name="last_name" required>
+
+                <label for="email"><b>Email</b></label>
+                <input type="text" placeholder="Enter Email" name="email" required>
+
+                <label for="username"><b>Username</b></label>
+                <input type="text" placeholder="Enter Username (to be used during login)" name="username" required>
+
+                <label for="password1"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="password1" required>
+
+                <label for="password2"><b>Confirm Password</b></label>
+                <input type="password" placeholder="Re-enter Password" name="password2" required>
+
+        <!--        <label>-->
+        <!--          <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me-->
+        <!--        </label>-->
+
+            <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
+
+              <div class="clearfix">
+        <!--      <button type="button" class="cancelbtn">Cancel</button>-->
+                  <button type="submit" class="signupbtn">Sign Up</button>
+              </div>
+              <div class="clearfixx">
+                  <br><center> <h6>--------------------OR--------------------</h6> Already have an account?</center>
+                  <a class="log" href="{% url 'login' %}">Log In</a>
+              </div>
+          </div>
+        </form>
+    </body>
+</html>
+{% endblock %}

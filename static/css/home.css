@@ -1,0 +1,35 @@
+body {
+        font-family: "Roboto", sans-serif;
+        font-size: 15px;
+        background-color: #fdfdfd;
+    }
+
+.head_text{
+    color: white;
+  }
+.card{
+    box-shadow: 0 16px 48px #E3E7EB;
+}
+
+.btn{
+    background-color: #ff0000;
+    border: none;
+}
+
+
+.divclass{
+    text-align: center;
+    height:100px;
+    width: 300px;
+    border: solid 1px black;
+    background-color: yellow;
+    padding: 10px;
+    margin: 20px;
+}
+
+.center {
+margin: 60px;
+width: 60%;
+border: 5px solid #FFFF00;
+padding: 10px;
+}

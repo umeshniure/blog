@@ -1,0 +1,72 @@
+{% extends 'top.html' %}
+{% load static %}
+<!--{% block title %} Sign Up {% endblock %}-->
+{% block content %}
+
+<!--<h4 align="center">Log In</h4>-->
+<!--<div align="center">-->
+<!--    <table>-->
+<!--        <form action="{% url 'login' %}" method="post">-->
+<!--            {% csrf_token %}-->
+<!--            Username : <input type="text" name="username" placeholder="UserName"><br>-->
+<!--            Password : <input type="password" name="password" placeholder="Password"><br><br>-->
+
+<!--            <button type="submit">Log In</button><br>-->
+
+<!--        </form>-->
+<!--        <div>-->
+<!--            {% for message in messages %}-->
+<!--            <h4> {{message}}</h4>-->
+<!--            {% endfor %}-->
+<!--        </div>-->
+<!--    </table>-->
+<!--</div>-->
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static '/css/login.css' %}">
+</head>
+<body>
+
+<form action="{% url 'login' %}" method="post">
+    {% csrf_token %}
+    <div class="container">
+            <h4>Log In</h4>
+            <p>Please fill in this form to Log In.</p>
+            <hr>
+    </div>
+    <div class="imgcontainer">
+        <img src="{% static 'images/avatar.jpg' %}" alt="Avatar" class="avatar">
+    </div>
+
+    <div class="container">
+        {% for message in messages %}
+          <h7 style="color:#e50000;"> {{message}}<br></h7>
+        {% endfor %}
+        <label for="username"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="username" required>
+
+        <label for="password"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" required>
+
+        <button type="submit">Login</button>
+    <!--    <label>-->
+    <!--      <input type="checkbox" checked="checked" name="remember"> Remember me-->
+    <!--    </label>-->
+          <center> <label class="psw">Forgot <a href="#">password?</a></label></center>
+          <div class="clearfixx">
+              <br><center> <h6>--------------------OR--------------------</h6> Create your account below!</center>
+              <a class="up" href="{% url 'register' %}">Sign Up</a>
+          </div>
+    </div>
+
+</form>
+
+</body>
+</html>
+{% endblock %}

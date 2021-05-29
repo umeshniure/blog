@@ -1,0 +1,12 @@
+{% extends "top.html" %}
+{% include "search.html" %}
+{% block content %}
+    <center>
+        {% if searched %}
+            you searched for {{search_value}}.
+        {% else %}
+            you forget to search. try again
+        {% endif %}
+    </center>
+
+{% endblock content %}

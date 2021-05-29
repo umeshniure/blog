@@ -1,0 +1,130 @@
+{% extends "top.html" %}
+
+    {% block content %}
+
+<!--        <header class="masthead" >-->
+<!--                <div class="overlay"></div>-->
+<!--                <div class="container">-->
+<!--                  <div class="row">-->
+<!--                    <div class="col-md-8 col-md-10 mx-auto">-->
+<!--                      <div class="site-heading">-->
+<!--                          {% if user.is_authenticated %}-->
+<!--                            <h4 class=" site-heading my-4 mt-3 text-white"> Hello, {{user.first_name}}! </h4>-->
+<!--                          {% else %}-->
+<!--                            <h4 class=" site-heading my-4 mt-3 text-white"> Hello user,&nbsp;<a style="color:#6666ff" href="{% url 'login' %}">login</a>&nbsp;first. </h4>-->
+<!--                          {% endif %}-->
+<!--                          <h5 class=" site-heading my-4 mt-3 text-light"> Welcome to my awesome Blog</h5>-->
+<!--                          <h7 class="text-light">I Love Blogs As much as you do..!</h7>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                </div>-->
+<!--                  </header>-->
+
+<!--                <div class="main-container p-5">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-md-5">&lt;!&ndash; Blog Entries Column &ndash;&gt;-->
+<!--                  <div class="mt-2" style="text-align: justify">-->
+<!--                        {% for i in object_list %}-->
+<!--                    <div class="card mb-3" >-->
+<!--                      <div class="card-body">-->
+<!--                        <h3 class="card-title">{{ i.title }}</h3>-->
+<!--                        <p class="card-text text-muted h6">{{ i.author }} | {{ i.created_on}} </p>-->
+
+<!--                        <p class="card-text">{{i.body|slice:":200" }}</p>-->
+<!--                        <a href="{% url 'detail' i.slug  %}" class="btn btn-danger">Read More &rarr;</a>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                        {% endfor %}-->
+<!--                  </div></div>-->
+<!--                    <div class="col-md-6 mt-2 d-flex justify-content-end">-->
+<!--                        <div class="card col-md-8" style="height:max-content;">-->
+<!--                            <h5 class="card-header text-center">About Me</h5>-->
+<!--                            <div class="card-body row justify-content-md-center">-->
+<!--                                <div class=""text-content>-->
+<!--                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aliquet eget sit amet tellus. Eleifend donec pretium vulputate sapien nec. Diam maecenas sed enim ut sem viverra.</p></div>-->
+<!--                                    <a href="#" class="btn btn-danger text-center">Know more!</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+
+
+
+<!--                </div>-->
+<!--                    {% if is_paginated %}-->
+<!--                        <nav aria-label="Page navigation container"></nav>-->
+<!--                            <ul class="pagination justify-content-center">-->
+<!--                                {% if page_obj.has_previous %}-->
+<!--                                    <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>-->
+<!--                                {% endif %}-->
+<!--                                {% if page_obj.has_next %}-->
+<!--                                    <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>-->
+<!--                                {% endif %}-->
+<!--                            </ul>-->
+<!--                        </nav>-->
+<!--                    {% endif %}-->
+<!--                </div>-->
+
+
+
+
+<header class="masthead">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    {% if user.is_authenticated %}
+                        <h4 class=" site-heading my-4 mt-3 text-white"> Hello, {{user.first_name}}! </h4>
+                    {% else %}
+                        <h4 class=" site-heading my-4 mt-3 text-white"> Hello user,&nbsp;<a style="color:#6666ff" href="{% url 'login' %}">login</a>&nbsp;first. </h4>
+                    {% endif %}
+                    <h3 class=" site-heading my-4 mt-3 text-white"> Welcome to my awesome Blog </h3>
+                    <p class="text-light">I Love Django As much as you do..! &nbsp
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+{% include 'search.html' %}
+
+<div class="container-fluid col-8" style="text-align: justify">
+    <div class="row" >
+        <div class="col-md-8 mt-5 ml-10 left">
+            {% for i in object_list %}
+            <div class="card mb-5">
+                <div class="card-body">
+                    <h3 class="card-title">{{ i.title }}</h3>
+                    <p class="card-text text-muted h6">{{ i.author }} | {{ i.created_on}} </p>
+                    <p class="card-text">{{i.body|slice:":260" }}</p>
+                    <a href="{% url 'detail' i.slug  %}" class="btn btn-danger">Read More &rarr;</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
+    </div>
+</div>
+
+</div>
+                    {% if is_paginated %}
+                        <nav aria-label="Page navigation container"></nav>
+                            <ul class="pagination justify-content-center">
+                                {% if page_obj.has_previous %}
+                                    <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>&nbsp;
+                                {% endif %}
+                                {% if page_obj.has_next %}
+                                    <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    {% endif %}
+                </div>
+
+    {% endblock %}
+
+
