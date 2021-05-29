@@ -6,3 +6,5 @@ Admin account
 
 usernme: admin
 password: umeshniure
+
+OR you can crate your own superuser account for the project.
