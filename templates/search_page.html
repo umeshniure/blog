@@ -4,8 +4,18 @@
     <center>
         {% if searched %}
             you searched for {{search_value}}.
+            {% if post_title %}
+                Search Found!.
+
+                {% for i in post_title %}
+                    <a href="{% url 'detail' i.slug  %}">{{i.title}} | {{i.body|slice:":260" }}</a>
+                {% endfor %}
+
+            {% else %}
+                Search Not found!!!
+            {% endif %}
         {% else %}
-            you forget to search. try again
+            you forget to search. try again!!!
         {% endif %}
     </center>
 

@@ -1,48 +1,76 @@
-from lib2to3.fixes.fix_input import context
 from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView
-from django.http import HttpResponse
-from django.contrib.auth.forms import UserCreationForm
 from .models import Article
+from django.contrib import messages
 from .forms import CommentForm
+import random
 
 
 # Create your views here.
 
 
-# class ArticleDetailView(DetailView):
-#     model = Article
-#     template_name = 'detail.html'
+
 
 
 def search(request):
-    if request.method == "POST":
-        searched = request.POST['search_value']
-        return render(request, 'events/search_page.html', {'search_value': searched})
+    if request.method == "GET":
+        searched = request.GET.get['search_value']
+        post_title = Article.objects.all().filter(title=searched)
+        return render(request, 'search_page.html', {'post_title': post_title})
     else:
-        return render(request, 'events/search_page.html')
+        return render(request, 'search_page.html')
+
+
+
+
+def articledetailview(request,slug):
+    model = Article
+    template_name = 'detail.html'
+    post = get_object_or_404(Article, slug=slug)
+    comments = post.comments.filter(active=True)
+    new_comment = None
+    comment_form = CommentForm()
+    num = random.randrange(1111, 9999)
+    global str_num
+    str_num = str(num)
+    return render(request, template_name, {'post': post,
+                                           'comments': comments,
+                                           'new_comment': new_comment,
+                                           'comment_form': comment_form,
+                                           'cap': str_num})
 
 
 def post_detail(request, slug):
+
     template_name = 'detail.html'
     post = get_object_or_404(Article, slug=slug)
     comments = post.comments.filter(active=True)
     new_comment = None
     if request.method == 'POST':
+        captcha = request.POST.get('cap')
         comment_form = CommentForm(data=request.POST)
+
         if comment_form.is_valid():
-            new_comment = comment_form.save(commit=False)
-            new_comment.post = post
-            new_comment.save()
+            if captcha == str_num:
+                new_comment = comment_form.save(commit=False)
+                new_comment.post = post
+                new_comment.save()
+            else:
+                messages.info(request, 'Incorrect Captcha!')
+                return render(request, template_name, {'post': post,
+                                                       'comments': comments,
+                                                       'new_comment': new_comment,
+                                                       'comment_form': comment_form,
+                                                       'cap': str_num})
+
     else:
         comment_form = CommentForm()
 
     return render(request, template_name, {'post': post,
                                            'comments': comments,
                                            'new_comment': new_comment,
-                                           'comment_form': comment_form})
+                                           'comment_form': comment_form,
+                                           'cap': str_num})
 
 
 class ArticleListView(ListView):

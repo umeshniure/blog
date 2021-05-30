@@ -1,9 +1,11 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
     path('', views.ArticleListView.as_view(), name='home'),
-    path('<slug:slug>/', views.post_detail, name='detail'),
+    path('<slug:slug>/', views.articledetailview, name='detail'),
     path('add/', views.AddPostView.as_view(), name='add'),
     path('search/', views.search, name='search'),
+    path('submit/<slug:slug>/', views.post_detail, name='submit'),
 ]
+
