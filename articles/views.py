@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView
 from .models import Article
 from django.contrib import messages
@@ -9,21 +9,18 @@ import random
 # Create your views here.
 
 
-
-
-
 def search(request):
     if request.method == "GET":
-        searched = request.GET.get['search_value']
-        post_title = Article.objects.all().filter(title=searched)
-        return render(request, 'search_page.html', {'post_title': post_title})
+        searched = request.GET.get('search_value')
+        print(searched)
+        post_title = Article.objects.all().filter(title__contains=searched)
+        print(post_title)
+        return render(request, 'search_page.html', {'post_title': post_title, 'searched': searched})
     else:
         return render(request, 'search_page.html')
 
 
-
-
-def articledetailview(request,slug):
+def articledetailview(request, slug):
     model = Article
     template_name = 'detail.html'
     post = get_object_or_404(Article, slug=slug)
@@ -41,7 +38,6 @@ def articledetailview(request,slug):
 
 
 def post_detail(request, slug):
-
     template_name = 'detail.html'
     post = get_object_or_404(Article, slug=slug)
     comments = post.comments.filter(active=True)
@@ -55,6 +51,7 @@ def post_detail(request, slug):
                 new_comment = comment_form.save(commit=False)
                 new_comment.post = post
                 new_comment.save()
+                return redirect('detail', slug=slug)
             else:
                 messages.info(request, 'Incorrect Captcha!')
                 return render(request, template_name, {'post': post,
@@ -62,9 +59,6 @@ def post_detail(request, slug):
                                                        'new_comment': new_comment,
                                                        'comment_form': comment_form,
                                                        'cap': str_num})
-
-    else:
-        comment_form = CommentForm()
 
     return render(request, template_name, {'post': post,
                                            'comments': comments,

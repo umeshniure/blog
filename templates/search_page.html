@@ -1,14 +1,15 @@
 {% extends "top.html" %}
 {% include "search.html" %}
 {% block content %}
+    {% include "search.html" %}
     <center>
         {% if searched %}
-            you searched for {{search_value}}.
+            you searched for {{searched}}.<br>
             {% if post_title %}
-                Search Found!.
+                Search Found!.<br>
 
                 {% for i in post_title %}
-                    <a href="{% url 'detail' i.slug  %}">{{i.title}} | {{i.body|slice:":260" }}</a>
+                    <a href="{% url 'detail' i.slug  %}">{{i.title}} </a><br>| {{i.body|slice:":260" }}<br>
                 {% endfor %}
 
             {% else %}
