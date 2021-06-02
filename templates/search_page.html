@@ -4,20 +4,51 @@
     {% include "search.html" %}
     <center>
         {% if searched %}
-            you searched for {{searched}}.<br>
             {% if post_title %}
-                Search Found!.<br>
+                <div class="alert alert-success alert-dismissible fade show col-5 mt-1" role="alert">
+                    Search Found for "{{searched}}"!
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
-                {% for i in post_title %}
-                    <a href="{% url 'detail' i.slug  %}">{{i.title}} </a><br>| {{i.body|slice:":260" }}<br>
-                {% endfor %}
+
+                <div class="container-fluid col-8" style="text-align: justify">
+                    <div class="row" >
+                        <div class="col-md-8 mt-1 ml-10 left">
+                            {% for i in post_title %}
+                            <div class="card mb-5">
+                                <div class="card-body">
+                                    <h3 class="card-title">{{ i.title }}</h3>
+                                    <p class="card-text text-muted h6">{{ i.author }} | {{ i.created_on}} </p>
+                                    <p class="card-text">{{i.body|slice:":260" }}</p>
+                                    <a href="{% url 'detail' i.slug  %}" class="btn btn-danger">Read More &rarr;</a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
+                    </div>
+                </div>
 
             {% else %}
-                Search Not found!!!
+                <div class="alert alert-warning alert-dismissible fade show col-5 mt-3" role="alert">
+                    Search not found for "{{searched}}"!
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
             {% endif %}
         {% else %}
-            you forget to search. try again!!!
+            <div class="alert alert-warning alert-dismissible fade show col-5 mt-3" role="alert">
+                You forgot to search. Try again!
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
         {% endif %}
+        <div class="container"><a class="btn btn-danger" title="Go home" href="{% url 'home' %}" role="button"> Home </a></div>
+
     </center>
 
 {% endblock content %}
