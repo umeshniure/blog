@@ -12,7 +12,8 @@ from django.contrib.auth.models import auth, User
 
 def logout(request):
     auth.logout(request)
-    return redirect('home')
+    messages.info(request, 'You are logged out! Please log in to continue.')
+    return redirect('/')
 
 
 def login(request):
@@ -24,6 +25,7 @@ def login(request):
 
         if user is not None:
             auth.login(request, user)
+            messages.info(request, 'Welcome to the world of blogs!')
             return redirect('/')
         else:
             messages.info(request, 'Invalid Username or Password!')

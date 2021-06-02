@@ -3,7 +3,6 @@
 {% block content %}
     {% include "search.html" %}
     <center>
-        {% if searched %}
             {% if post_title %}
                 <div class="alert alert-success alert-dismissible fade show col-5 mt-1" role="alert">
                     Search Found for "{{searched}}"!
@@ -39,14 +38,6 @@
                   </button>
                 </div>
             {% endif %}
-        {% else %}
-            <div class="alert alert-warning alert-dismissible fade show col-5 mt-3" role="alert">
-                You forgot to search. Try again!
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        {% endif %}
         <div class="container"><a class="btn btn-danger" title="Go home" href="{% url 'home' %}" role="button"> Home </a></div>
 
     </center>
