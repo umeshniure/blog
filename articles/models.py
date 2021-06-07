@@ -1,5 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 from django.utils import timezone
 
 STATUS = (
@@ -7,12 +9,22 @@ STATUS = (
     (1, "Publish")
 )
 
+
+def upload_location(instance, filename):
+    file_path = f'blog/{instance.author.id}/{instance.title}-{filename}'.format(author_id=str(instance.author_id),
+                                                                                title=str(instance.title),
+                                                                                filename=filename)
+    return file_path
+
+
 class Article(models.Model):
-    author = models.ForeignKey('auth.User', on_delete=models.CASCADE,)
+    author = models.ForeignKey('auth.User', on_delete=models.CASCADE, )
     title = models.CharField(max_length=100)
     slug = models.SlugField(max_length=200, unique=True, default=timezone.now)
+    image = models.ImageField(null=True, blank=True, upload_to=upload_location)
     updated_on = models.DateTimeField(auto_now=True)
     body = models.TextField()
+    # body = RichTextField(blank=True, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
 
@@ -21,6 +33,11 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+
+@receiver(post_delete, sender=Article)
+def submission_delete(sender, instance, **kwargs):
+    instance.image.delete(False)
 
 
 class Comment(models.Model):

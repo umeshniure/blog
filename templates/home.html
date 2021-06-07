@@ -110,7 +110,10 @@
                 <div class="card-body">
                     <h3 class="card-title">{{ i.title }}</h3>
                     <p class="card-text text-muted h6">{{ i.author }} | {{ i.created_on}} </p>
-                    <p class="card-text">{{i.body|slice:":260" }}</p>
+                    {% if i.image %}
+                      <img class="card-img-top" src="{{i.image.url}}">
+                    {% endif %}
+                    <p class="card-text">{{i.body|safe|slice:":260" }}</p>
                     <a href="{% url 'detail' i.slug  %}" class="btn btn-danger">Read More &rarr;</a>
                 </div>
             </div>
@@ -120,21 +123,8 @@
     </div>
 </div>
 
-</div>
-    {% if is_paginated %}
-    <nav aria-label="Page navigation container"></nav>
-        <ul class="pagination justify-content-center">
-            {% if page_obj.has_previous %}
-                <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>&nbsp;
-            {% endif %}
-            {% if page_obj.has_next %}
-                <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
-            {% endif %}
-        </ul>
-    </nav>
-    {% endif %}
-</div>
+{% include 'pagination.html' %}
 
-    {% endblock %}
+{% endblock %}
 
 

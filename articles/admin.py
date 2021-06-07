@@ -2,11 +2,13 @@ from django.contrib import admin
 from .models import Article
 from .models import Article, Comment
 
+
 # Register your models here.
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'status', 'created_on')
+    list_display = ('title', 'slug', 'status', 'created_on', 'image')
     list_filter = ('status',)
     search_fields = ('title', 'body')
+
 
 admin.site.register(Article, PostAdmin)
 

@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView
 from .models import Article
+from django.contrib.auth.models import User
 from django.contrib import messages
-from .forms import CommentForm
+from .forms import CommentForm, CreateBlogPostForm
 import random
 
 
@@ -18,6 +19,24 @@ def search(request):
         return render(request, 'search_page.html', {'post_title': post_title, 'searched': searched})
     else:
         return render(request, 'search_page.html')
+
+
+def create_blog_view(request):
+    context = {}
+
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('must_authenticate')
+
+    form = CreateBlogPostForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        obj = form.save(commit=False)
+        author = User.objects.filter(username=user.username)
+        obj.author = author
+        obj.save()
+        form = CreateBlogPostForm()
+    context['form'] = form
+    return render(request, 'create_blog.html', context)
 
 
 def articledetailview(request, slug):
@@ -67,11 +86,14 @@ def post_detail(request, slug):
                                            'cap': str_num})
 
 
+
+
+
 class ArticleListView(ListView):
     model = Article
     queryset = Article.objects.filter(status=1).order_by('-created_on')
     template_name = 'home.html'
-    paginate_by = 3
+    paginate_by = 2
 
     # def get_data(self):
     #     search_input = self.request.GET.get('search_value') or ''
@@ -81,9 +103,3 @@ class ArticleListView(ListView):
     #     context['search_input'] = search_input
     #
     #     return context
-
-
-class AddPostView(CreateView):
-    model = Article
-    template_name = 'add.html'
-    fields = '__all__'

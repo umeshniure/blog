@@ -10,6 +10,10 @@ from django.contrib.auth.models import auth, User
 #     success_url = reverse_lazy('Login')
 
 
+def must_authenticate_view(request):
+    return render(request, 'must_authenticate.html', {})
+
+
 def logout(request):
     auth.logout(request)
     messages.info(request, 'You are logged out! Please log in to continue.')
