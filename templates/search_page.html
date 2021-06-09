@@ -12,7 +12,7 @@
                 </div>
 
 
-                <div class="container-fluid col-8" style="text-align: justify">
+                <div class="container-fluid col-8" style="text-align: justify; min-height: 75vh;">
                     <div class="row" >
                         <div class="col-md-8 mt-1 ml-10 left">
                             {% for i in post_title %}
@@ -27,7 +27,7 @@
                             {% endfor %}
                         </div>
                         {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
-                    </div>
+                    </div><div class="container"><a class="btn btn-danger" title="Go home" href="{% url 'home' %}" role="button"> Home </a></div>
                 </div>
 
             {% else %}
@@ -37,8 +37,9 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
+
             {% endif %}
-        <div class="container"><a class="btn btn-danger" title="Go home" href="{% url 'home' %}" role="button"> Home </a></div>
+
 
     </center>
 

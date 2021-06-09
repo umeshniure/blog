@@ -10,11 +10,6 @@
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
         <link rel="stylesheet" href="{% static '/css/top.css' %}">
         <link rel="stylesheet" href="{% static '/css/bluetheme.css' %}">
         <link rel="stylesheet" href="{% static '/css/smart-forms.css' %}">
@@ -22,11 +17,17 @@
         <link rel="stylesheet" href="{% static '/css/detail.css' %}">
         <link rel="stylesheet" href="{% static '/css/sidebar.css' %}">
         <title>Umesh Blogs</title>
+        <style>
+            .dropdown-menu{
+            right:0 !important;
+            left: auto !important;
+            }
+        </style>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <a class="navbar-brand" href="{% url 'home' %}" title="Home">Blogs</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+          <button style="width:auto;" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
 
@@ -36,7 +37,7 @@
             </ul>
               <ul class="navbar-nav mr-end mt-2 mt-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'create_blog' %}" title="create post" class="link">Add post</a>
+                    <a class="nav-link" href="{% url 'create_blog' %}" title="create post">Add post</a>
                 </li>
                   <li class="nav-item">
                 <a class="nav-link" href="#">About <span class="sr-only">(current)</span></a>
@@ -57,7 +58,8 @@
                     <a class="dropdown-item disabled" href="">{{user.email}} </a>
                     <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'password_change' %}">Change password</a>
-                        <a class="dropdown-item" href="{% url 'edit_profile' %}">Update account</a>
+                        <a class="dropdown-item disabled" href="">Update account</a>
+                        <a class="dropdown-item" href="{% url 'login' %}">Switch profile</a>
                         <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                   {% else %}
                     <a class="dropdown-item" href="{% url 'login' %}">Login</a>
@@ -76,8 +78,16 @@
 
         <br>
 
-    <footer class="py-3 bg-grey">
+    <footer class="py-3 bg-grey" >
         <p class="m-0 text-dark text-center ">Copyright &copy; Umesh Blogs 2021. All Rights Reserved</p>
     </footer>
+
+        <script src="bootstrap-show-password.min.js"></script>
+        <script src="bootstrap-show-password.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
     </body>
     </html>

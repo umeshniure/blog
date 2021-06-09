@@ -75,7 +75,7 @@ def register(request):
 
 class UserEditView(generic.UpdateView):
     form_class = UserChangeForm
-    template_name = 'edit_profile.html'
+    template_name = 'accounts/edit_profile.html'
     success_url = reverse_lazy('home')
 
     def get_object(self):

@@ -1,75 +1,81 @@
 {% extends 'top.html' %}
 {% load static %}
-<!--{% block title %} Sign Up {% endblock %}-->
+
 {% block content %}
-
-<!--<h4 align="center">Log In</h4>-->
-<!--<div align="center">-->
-<!--    <table>-->
-<!--        <form action="{% url 'login' %}" method="post">-->
-<!--            {% csrf_token %}-->
-<!--            Username : <input type="text" name="username" placeholder="UserName"><br>-->
-<!--            Password : <input type="password" name="password" placeholder="Password"><br><br>-->
-
-<!--            <button type="submit">Log In</button><br>-->
-
-<!--        </form>-->
-<!--        <div>-->
-<!--            {% for message in messages %}-->
-<!--            <h4> {{message}}</h4>-->
-<!--            {% endfor %}-->
-<!--        </div>-->
-<!--    </table>-->
-<!--</div>-->
-
-
-
 
 <!DOCTYPE html>
 <html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{% static '/css/login.css' %}">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static '/css/login.css' %}">
+        <title>Sign Up</title>
+    </head>
+    <body>
 
-<form action="{% url 'login' %}" method="post">
-    {% csrf_token %}
-    <div class="container">
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <div class="container">
             <h4>Welcome Back!</h4>
-            <p>Please fill in this form to Log In.</p>
+            <p>Please fill in this form to log in.</p>
             <hr>
-    </div>
+        </div>
     <div class="imgcontainer">
-        <img src="{% static 'images/avatar.jpg' %}" alt="Avatar" class="avatar">
+        <i class='fas fa-user-circle iconic iconic-lg ' style="font-size:20vw; color:#323232"></i>
     </div>
 
     <div class="container">
         {% for message in messages %}
           <h7 style="color:#e50000;"> {{message}}<br></h7>
         {% endfor %}
-        <label for="username"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="username" required>
+        <div class="form-group">
+            <label for="username"><b>Username</b></label>
+            <input class="form-control" type="text" placeholder="Enter Username" name="username" id="username" required>
+        </div>
+        <div class="form-group input-group">
+            <label for="password"><b>Password</b></label>
+            <div class="input-group">
+                <input style="margin: 0px 0;" class="form-control" type="password" placeholder="Enter Password" name="password" id="password" data-toggle="password" required>
+                <div class="input-group-append">
+                    <div class="input-group-text" onclick="myFunction()">
+                        <i class="fa fa-eye"  id="show"></i>
+                        <i class="fa fa-eye-slash" id="hide"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <label for="password"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="password" id="password" required>
-        <button id="toggle-password" type="button" class="d-none"
-            aria-label="Show password as plain text. Warning: this will display your password on the screen.">
-        </button>
-
-        <button type="submit">Login</button>
     <!--    <label>-->
     <!--      <input type="checkbox" checked="checked" name="remember"> Remember me-->
     <!--    </label>-->
+        <div class="clearfix">
+        <!--      <button type="button" class="cancelbtn">Cancel</button>-->
+                  <button type="submit" class="loginbutton">Log In</button>
+        </div>
           <center> <label class="psw">You don't know your <a href="{% url 'password_reset' %}">password?</a></label></center>
-          <div class="clearfixx">
-              <br><center> <h6 style="color: grey">--------------------OR--------------------</h6> Create your account below!</center>
+          <div class="clearfix">
+              <br><center> <h6 style="color: grey">Or</h6> Create your account below!</center>
               <a class="up" href="{% url 'register' %}">Sign Up</a>
           </div>
     </div>
 
 </form>
+<script type="text/javascript">
+ document.getElementById("hide").style.display = "none"
+function myFunction() {
+  var x = document.getElementById("password");
+  if (x.type === "password") {
+    x.type = "text";
+    document.getElementById("hide").style.display = "inline-block"
+    document.getElementById("show").style.display = "none"
 
-</body>
-</html>
+  } else {
+    x.type = "password";
+    document.getElementById("hide").style.display = "none"
+    document.getElementById("show").style.display = "inline-block"
+  }
+}
+</script>
+    </body>
+    </html>
 {% endblock %}

@@ -36,6 +36,5 @@ class UpdateBlogPostForm(forms.ModelForm):
 
 
 # class EditProfileForm(UserChangeForm):
-#     email =
-#
 #     class Meta:
+#         form
