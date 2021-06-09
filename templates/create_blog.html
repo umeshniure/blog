@@ -19,6 +19,18 @@
 <div class="container">
 	<div class="row">
 		<div class="col-lg-7 offset-lg-1">
+
+			{% if messages %}
+				<div class="alert alert-success alert-dismissible fade show mt-1" role="alert">
+                    {% for message in messages %}
+					{{message}}
+					{% endfor %}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+			{% endif %}
+
 			<form class="create-form" method="post" enctype="multipart/form-data">
 				{% csrf_token %}
 
@@ -37,17 +49,25 @@
 				<!-- Image -->
 				<div class="form-group">
 					<label for="id_image">Image</label>
-					<input  type="file" name="image" id="id_image" accept="image/*" required>
+					<input  type="file" name="image" id="id_image" accept="image/*">
 				</div>
 
 				<!-- Slug -->
 				<div class="form-group">
 					<label for="id_title">Slug</label>
-					<input class="form-control" type="text" name="slug" id="id_slug" placeholder="Slug" required autofocus>
+					<input class="form-control" type="text" name="slug" id="id_slug" placeholder="Slug" required>
 				</div>
 
+				<!-- Terms and conditions -->
+				<div class="mb-3 form-check">
+					<input type="checkbox" class="form-check-input" id="exampleCheck1" required>
+					<label class="form-check-label" for="exampleCheck1">By posting, I accept the <a href=""> terms and conditions</a> and <a href="">privacy policy</a>.</label>
+				</div>
+
+
 				<!-- Submit btn -->
-				<button class="submit-button btn btn-lg btn-danger btn-block" type="submit">POST</button>
+				<button class="submit-button btn btn-lg btn-danger" type="submit">Post</button>
+				<a href="/" class="btn btn-lg btn-danger">Cancel</a>
 			</form>
 		</div>
 	</div>

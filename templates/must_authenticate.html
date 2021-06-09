@@ -1,14 +1,20 @@
 {% extends 'top.html' %}
 
 {% block content %}
-<div class="container">
-    <div class="d-flex flex-column">
-        <p class="m-auto">Must authenticate to view this page. </p>
-        <p class="m-auto">
-            <a href="{% url 'register' %}">Register</a> or
-            <a href="{% url 'login' %}">Login</a>
-        </p>
-    </div>
-</div>
+
+        <div class="container-fluid col-10 mt-5">
+          <div class="row justify-content-center" >
+            <div class="col-md-3" style="text-align: center">
+                <div class="card my-4">
+                    <div class="card-body ">
+                        <h1>oops!</h1>
+                        <p class="card-text">Must authenticate to view this page.</p><hr>
+                        <a href="{% url 'login' %}" class="btn btn-danger">login</a> or
+                        <a href="{% url 'register' %}" class="btn btn-danger">Register</a>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
 
 {% endblock content %}

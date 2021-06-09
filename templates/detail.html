@@ -1,8 +1,7 @@
 {% extends 'top.html' %}
 {% load static %}
-{% block content %}
 
-{% if user.is_authenticated %}
+{% block content %}
 
 <div class="container mt-2 col-7"><a class="btn btn-danger" href="{% url 'home' %}" role="button"> < Back</a></div>
 <div class="container-fluid col-7" style="text-align: justify">
@@ -18,7 +17,11 @@
           <img class="card-img-top" src="{{post.image.url}}">
           {% endif %}
         <p class="card-text ">{{ post.body | safe }}</p>
+        {% if post.author == request.user %}
+            <a href="{% url 'edit' post.slug %}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+        {% endif %}
       </div>
+
     </div>
      {% include 'sidebar.html' %}
 
@@ -180,21 +183,5 @@
     ctx.textAlign = "center";
     ctx.fillText("{{cap}}", canvas.width/2, canvas.height/1.7);
 </script>
-
-{% else %}
-        <div class="container-fluid col-10 mt-5">
-          <div class="row justify-content-center" >
-            <div class="col-md-3" style="text-align: center">
-                <div class="card my-4">
-                    <div class="card-body ">
-                        <h1>oops!</h1>
-                        <p class="card-text">Are you sure you are logged in?</p><hr>
-                        <a href="{% url 'login' %}" class="btn btn-danger">login here</a>
-                    </div>
-                </div>
-            </div>
-          </div>
-        </div>
-{% endif %}
 
 {% endblock content %}

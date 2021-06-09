@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView, CreateView
 from .models import Article
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .forms import CommentForm, CreateBlogPostForm
+from .forms import CommentForm, CreateBlogPostForm, UpdateBlogPostForm
 import random
 
 
@@ -31,22 +31,51 @@ def create_blog_view(request):
     form = CreateBlogPostForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         obj = form.save(commit=False)
-        author = User.objects.filter(username=user.username)
+        # author = request.user.username
+        author = User.objects.filter(username=user.username).first()
         obj.author = author
         obj.save()
+        messages.info(request,
+                      'Congratulations! Your post has been submitted successfully and is waiting for admin approval.')
         form = CreateBlogPostForm()
     context['form'] = form
     return render(request, 'create_blog.html', context)
 
 
+def update_blog_view(request, slug):
+    context = {}
+
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('must_authenticate')
+
+    blog_post = get_object_or_404(Article, slug=slug)
+    if request.POST:
+        form = UpdateBlogPostForm(request.POST or None, request.FILES or None, instance=blog_post)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.save()
+            context['success_message'] = "Updated!"
+            blog_post = obj
+
+    form = UpdateBlogPostForm(
+        initial={'title': blog_post.title, 'body': blog_post.body, 'image': blog_post.image or None, 'slug': blog_post.slug})
+    context['form'] = form
+    return render(request, 'edit_blog.html', context)
+
+
 def articledetailview(request, slug):
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('must_authenticate')
+
     model = Article
     template_name = 'detail.html'
     post = get_object_or_404(Article, slug=slug)
     comments = post.comments.filter(active=True)
     new_comment = None
     comment_form = CommentForm()
-    num = random.randrange(1111, 9999)
+    num = random.randrange(11111, 99999)
     global str_num
     str_num = str(num)
     return render(request, template_name, {'post': post,
@@ -56,7 +85,8 @@ def articledetailview(request, slug):
                                            'cap': str_num})
 
 
-def post_detail(request, slug):
+def comment(request, slug):
+
     template_name = 'detail.html'
     post = get_object_or_404(Article, slug=slug)
     comments = post.comments.filter(active=True)
@@ -86,14 +116,11 @@ def post_detail(request, slug):
                                            'cap': str_num})
 
 
-
-
-
 class ArticleListView(ListView):
     model = Article
     queryset = Article.objects.filter(status=1).order_by('-created_on')
     template_name = 'home.html'
-    paginate_by = 2
+    paginate_by = 3
 
     # def get_data(self):
     #     search_input = self.request.GET.get('search_value') or ''
