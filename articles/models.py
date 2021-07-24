@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.conf import settings
 from django.db.models.signals import post_delete
@@ -27,12 +28,16 @@ class Article(models.Model):
     # body = RichTextField(blank=True, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
+    likes = models.ManyToManyField(User, related_name='blog_likes')
 
     class Meta:
         ordering = ['-created_on']
 
     def __str__(self):
         return self.title
+
+    def total_likes(self):
+        return self.likes.count()
 
 
 @receiver(post_delete, sender=Article)

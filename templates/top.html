@@ -36,6 +36,11 @@
 
             </ul>
               <ul class="navbar-nav mr-end mt-2 mt-lg-0">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'my_posts' %}" title="create post">My posts</a>
+                    </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'create_blog' %}" title="create post">Add post</a>
                 </li>
@@ -54,7 +59,7 @@
                 </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                   {% if user.is_authenticated %}
-                    <a class="dropdown-item disabled" href="">{{user.first_name}} {{user.last_name}} </a>
+                    <a class="dropdown-item disabled" href="">{{user.first_name}} {{user.last_name}}</a>
                     <a class="dropdown-item disabled" href="">{{user.email}} </a>
                     <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'password_change' %}">Change password</a>

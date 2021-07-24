@@ -1,13 +1,42 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView, DetailView, CreateView
+from django.template import context
+from django.views.generic import ListView
 from .models import Article
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import CommentForm, CreateBlogPostForm, UpdateBlogPostForm
 import random
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Create your views here.
+
+
+def like_post(request, pk, slug):
+    post = get_object_or_404(Article, id=request.POST.get('post_id'))
+
+    liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+        liked = False
+    else:
+        post.likes.add(request.user)
+        liked = True
+
+    post.likes.add(request.user)
+    return HttpResponseRedirect(reverse('detail', args=[str(pk)], slug=slug))
+    # return redirect('detail', post.pk)
+
+
+class MyPosts(LoginRequiredMixin, ListView):
+    login_url = '/login/'
+    redirect_field_name = 'must_authenticate'
+    model = Article
+    queryset = Article.objects.filter(status=1).order_by('-created_on')
+    template_name = 'my_posts.html'
+    paginate_by = 10
 
 
 def search(request):
@@ -36,7 +65,7 @@ def create_blog_view(request):
         obj.author = author
         obj.save()
         messages.info(request,
-                      'Congratulations! Your post has been submitted successfully and is waiting for admin approval.')
+                      'Congratulations! Your post has been submitted successfully. Admin will verify and approve your post.')
         form = CreateBlogPostForm()
     context['form'] = form
     return render(request, 'create_blog.html', context)
@@ -59,20 +88,23 @@ def update_blog_view(request, slug):
             blog_post = obj
 
     form = UpdateBlogPostForm(
-        initial={'title': blog_post.title, 'body': blog_post.body, 'image': blog_post.image or None, 'slug': blog_post.slug})
+        initial={'title': blog_post.title, 'body': blog_post.body, 'image': blog_post.image or None,
+                 'slug': blog_post.slug})
     context['form'] = form
     return render(request, 'edit_blog.html', context)
 
 
 def articledetailview(request, slug):
-    user = request.user
-    if not user.is_authenticated:
+    if not request.user.is_authenticated:
         return redirect('must_authenticate')
 
-    model = Article
     template_name = 'detail.html'
     post = get_object_or_404(Article, slug=slug)
     comments = post.comments.filter(active=True)
+    total_like = post.total_likes()
+    liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        liked = True
     new_comment = None
     comment_form = CommentForm()
     num = random.randrange(11111, 99999)
@@ -82,11 +114,12 @@ def articledetailview(request, slug):
                                            'comments': comments,
                                            'new_comment': new_comment,
                                            'comment_form': comment_form,
-                                           'cap': str_num})
+                                           'cap': str_num,
+                                           'total_like': total_like,
+                                           'liked': liked})
 
 
 def comment(request, slug):
-
     template_name = 'detail.html'
     post = get_object_or_404(Article, slug=slug)
     comments = post.comments.filter(active=True)

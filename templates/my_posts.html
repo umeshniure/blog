@@ -1,0 +1,75 @@
+{% extends "top.html" %}
+
+{% block content %}
+
+<!--{% if messages %}-->
+<!--    {% for message in messages %}-->
+<!--        <center> <div class="alert alert-success alert-dismissible fade show col-5 mt-3" role="alert">-->
+<!--            {{message}}-->
+<!--            <button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
+<!--                <span aria-hidden="true">&times;</span>-->
+<!--            </button>-->
+<!--        </div></center>-->
+<!--    {% endfor %}-->
+<!--{% endif %}-->
+
+<!--<header class="masthead">-->
+<!--    <div class="overlay"></div>-->
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <div class=" col-md-8 col-md-10 mx-auto">-->
+<!--                <div class="site-heading">-->
+<!--                    {% if user.is_authenticated %}-->
+<!--                        <h4 class=" site-heading my-4 mt-3 text-white"> Hello, {{user.first_name}}! </h4>-->
+<!--                    {% else %}-->
+<!--                        <h4 class=" site-heading my-4 mt-3 text-white"> Hello user,&nbsp;<a style="color:#6666ff" href="{% url 'login' %}">login</a>&nbsp;first. </h4>-->
+<!--                    {% endif %}-->
+<!--                    <h3 class=" site-heading my-4 mt-3 text-white"> Welcome to my awesome Blog </h3>-->
+<!--                    <p class="text-light">I Love Blogs As much as you do...-->
+<!--                    </p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</header>-->
+
+{% include 'search.html' %}
+
+    <div class="container-fluid col-8" style="text-align: justify">
+        <div class="row" >
+            <div class="col-md-8 mt-1 ml-10 left">
+                {% for i in object_list %}
+                {% if i.author.id == request.user.id %}
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            {{ i.title }}
+                        </h3>
+                        <h6 class="card-text text-muted h6">
+                            {{ i.author }} | {{ i.created_on}}
+                            {% if i.author == request.user %}
+                                <div class="mb-2" style="float:right;">
+                                    <a href="{% url 'edit' i.slug %}" title="Edit this post"><i class='fas fa-edit' style='font-size:36px; color:#C82333'></i></a>
+                                </div>
+                            {% endif %}
+                        </h6>
+                        {% if i.image %}
+                          <img class="card-img-top" src="{{i.image.url}}">
+                        {% endif %}
+                        <p class="card-text">{{i.body|safe|slice:":260" }}</p>
+                        <a href="{% url 'detail' i.slug  %}" class="btn btn-danger">Read More &rarr;</a>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
+        </div>
+    </div>
+
+
+{% include 'pagination.html' %}
+
+{% endblock %}
+
+
