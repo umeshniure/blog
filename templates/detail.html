@@ -17,12 +17,12 @@
           <img class="card-img-top" src="{{post.image.url}}">
           {% endif %}
         <p class="card-text ">{{ post.body | safe }}</p>
-              <form method="POST" action="{% url 'like_post' post.pk %}">
+              <form method="POST" action="{% url 'like_post' post.slug %}">
               {% csrf_token %}
               {% if liked %}
-                  <button type="submit" name="post_id" value="{{post.id}}" class="btn btn-danger btn-md"> Unlike </button>
+                  <button type="submit" name="post_slug" value="{{post.slug}}" class="btn btn-danger btn-md"> Unlike </button>
               {% else %}
-                  <button type="submit" name="post_id" value="{{post.id}}" class="btn btn-primary btn-md"> Like </button>
+                  <button type="submit" name="post_slug" value="{{post.slug}}" class="btn btn-primary btn-md"> Like </button>
               {% endif %}
               - {{total_like}} Likes
           </form>

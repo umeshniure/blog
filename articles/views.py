@@ -14,8 +14,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 
-def like_post(request, pk, slug):
-    post = get_object_or_404(Article, id=request.POST.get('post_id'))
+def like_post(request, slug):
+    post = get_object_or_404(Article, slug=request.POST.get('post_slug'))
 
     liked = False
     if post.likes.filter(id=request.user.id).exists():
@@ -25,9 +25,8 @@ def like_post(request, pk, slug):
         post.likes.add(request.user)
         liked = True
 
-    post.likes.add(request.user)
-    return HttpResponseRedirect(reverse('detail', args=[str(pk)], slug=slug))
-    # return redirect('detail', post.pk)
+    return HttpResponseRedirect(reverse('detail', args=[str(slug)]))
+    # return redirect('detail', post.slug)
 
 
 class MyPosts(LoginRequiredMixin, ListView):
