@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<div class="container mt-2 col-7"><a class="btn btn-danger" href="{% url 'home' %}" role="button"> < Back</a></div>
+<div class="container mt-2 col-7"><a class="btn btn-danger" href="{% url 'home' %}" role="button"><img src="https://img.icons8.com/ios-glyphs/25/ffffff/circled-chevron-left.png"/> Back</a></div>
 <div class="container-fluid col-7" style="text-align: justify">
   <div class="row">
     <div class="col-md-8 card mb-4 mt-1 left">
@@ -11,7 +11,7 @@
       <div class="card-body">
 
         <h3> {{ post.title }} </h3>
-        <p class=" text-muted">{{ post.author }} | Last Update ({{ post.updated_on }})</p>
+        <p class="text-muted">{{ post.author }} | Last Update ({{ post.updated_on }})</p>
 
           {% if post.image %}
           <img class="card-img-top" src="{{post.image.url}}">
@@ -20,11 +20,15 @@
               <form method="POST" action="{% url 'like_post' post.slug %}">
               {% csrf_token %}
               {% if liked %}
-                  <button type="submit" name="post_slug" value="{{post.slug}}" class="btn btn-danger btn-md"> Unlike </button>
+                  <button type="submit" name="post_slug" value="{{post.slug}}" class="btn btn-danger">
+                      <img src="https://img.icons8.com/material/24/ffffff/dislike.png"/> Unlike
+                  </button>
               {% else %}
-                  <button type="submit" name="post_slug" value="{{post.slug}}" class="btn btn-primary btn-md"> Like </button>
+                  <button type="submit" name="post_slug" value="{{post.slug}}" class="btn btn-danger">
+                      <img src="https://img.icons8.com/material/24/ffffff/filled-like--v1.png"/> Like
+                  </button>
               {% endif %}
-              - {{total_like}} Likes
+              <h7 class="text-muted">- {{total_like}} Likes</h7>
           </form>
       </div>
 

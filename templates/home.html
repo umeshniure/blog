@@ -50,6 +50,7 @@
                     {% endif %}
                     <p class="card-text">{{i.body|safe|slice:":260" }}</p>
                     <a href="{% url 'detail' i.slug  %}" class="btn btn-danger">Read More &rarr;</a>
+<!--                    <div> {{i.total_like}} <img src="https://img.icons8.com/ios-glyphs/30/000000/filled-like.png"/> </div>-->
                 </div>
             </div>
             {% endfor %}

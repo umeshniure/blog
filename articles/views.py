@@ -73,8 +73,7 @@ def create_blog_view(request):
 def update_blog_view(request, slug):
     context = {}
 
-    user = request.user
-    if not user.is_authenticated:
+    if not request.user.is_authenticated:
         return redirect('must_authenticate')
 
     blog_post = get_object_or_404(Article, slug=slug)
