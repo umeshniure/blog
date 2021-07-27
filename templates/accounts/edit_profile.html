@@ -1,8 +1,8 @@
 {% extends 'top.html' %}
 
 {% block content %}
-    <h1>Edit Profile...</h1>
-    <br><br>
+<div class="container">
+    <h5 class="mb-3 mt-3">Edit Profile...</h5>
     <div class="form-group">
         <form method="POST">
             {% csrf_token %}
@@ -10,4 +10,5 @@
             <button class="btn btn-danger">Update Profile</button>
         </form>
     </div>
+</div>
 {% endblock %}

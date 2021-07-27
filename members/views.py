@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import auth, User
+from django.template import context
 from django.urls import reverse_lazy
 from django.views import generic
+from .forms import EditProfileForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserChangeForm
 
 
@@ -73,10 +76,14 @@ def register(request):
         return render(request, 'register.html')
 
 
-class UserEditView(generic.UpdateView):
-    form_class = UserChangeForm
+class UserEditView(LoginRequiredMixin, generic.UpdateView):
+    context = {}
+    form_class = EditProfileForm
     template_name = 'accounts/edit_profile.html'
+    context['success_message'] = "Congratulations! Your profile has been updated successfully."
     success_url = reverse_lazy('home')
+
+    # messages.info(request, 'Congratulations! Your profile has been updated successfully.')
 
     def get_object(self):
         return self.request.user

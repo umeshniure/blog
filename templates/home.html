@@ -6,6 +6,9 @@
     {% for message in messages %}
         <center> <div class="alert alert-success alert-dismissible fade show mt-3" style="width:65%;" role="alert">
             {{message}}
+            {% if success_message %}
+				<h5 style="color:green; text-align: center;">{{success_message}}</h5>
+			{% endif %}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
