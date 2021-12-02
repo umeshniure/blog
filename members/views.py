@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import auth, User
@@ -17,13 +18,17 @@ from django.contrib.auth.forms import UserChangeForm
 
 
 def must_authenticate_view(request):
-    return render(request, 'must_authenticate.html', {})
+    if not request.user.is_authenticated:
+        return render(request, 'must_authenticate.html', {})
+    else:
+        messages.info(request, 'Hurray! You are already logged in.')
+        return redirect('home')
 
 
 def logout(request):
     auth.logout(request)
-    messages.info(request, 'You are logged out! Please log in to continue.')
-    return redirect('/')
+    messages.info(request, 'You are successfully logged out! Please login to view blogs.')
+    return redirect('home')
 
 
 def login(request):
@@ -35,7 +40,7 @@ def login(request):
 
         if user is not None:
             auth.login(request, user)
-            messages.info(request, 'Welcome to the world of blogs!')
+            messages.info(request, 'Welcome! to the world of blogs.')
             return redirect('/')
         else:
             messages.info(request, 'Invalid Username or Password!')
@@ -67,7 +72,6 @@ def register(request):
                 user.save()
                 return redirect('login')
         else:
-            print("password not matching!")
             messages.info(request, "Password didn't match!")
             return redirect('register')
 
@@ -76,14 +80,25 @@ def register(request):
         return render(request, 'register.html')
 
 
-class UserEditView(LoginRequiredMixin, generic.UpdateView):
-    context = {}
-    form_class = EditProfileForm
-    template_name = 'accounts/edit_profile.html'
-    context['success_message'] = "Congratulations! Your profile has been updated successfully."
-    success_url = reverse_lazy('home')
+@login_required
+def usereditview(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            # context['success_message'] = "Updated!"
+            messages.success(request, f'Congratulations! Your account has been successfully updated.')
+            return redirect('edit_profile')
+    else:
+        form = EditProfileForm(instance=request.user)
+    context = {'form': form}
+    return render(request, 'accounts/edit_profile.html', context)
 
-    # messages.info(request, 'Congratulations! Your profile has been updated successfully.')
-
-    def get_object(self):
-        return self.request.user
+# class UserEditView(generic.UpdateView):
+#     pass
+# form_class = EditProfileForm
+# template_name = 'accounts/edit_profile.html'
+# success_url = reverse_lazy('home')
+#
+# def get_object(self):
+#     return self.request.user

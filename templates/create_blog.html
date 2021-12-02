@@ -1,5 +1,5 @@
 {% extends 'top.html' %}
-
+{% load crispy_forms_tags %}
 
 {% block content %}
 
@@ -14,63 +14,78 @@
   	.submit-button{
   		max-width: 200px;
   	}
+
 </style>
 
+
 <div class="container">
-	<div class="row">
-		<div class="col-lg-7 offset-lg-1">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
 
-			{% if messages %}
-				<div class="alert alert-success alert-dismissible fade show mt-1" role="alert">
-                    {% for message in messages %}
-					{{message}}
-					{% endfor %}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+            {% if messages %}
+            <div class="alert alert-success alert-dismissible fade show mt-1" role="alert">
+                {% for message in messages %}
+                <center>{{message}}</center>
+                {% endfor %}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
+
+            <form class="create-form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.media }}
+                {{ form.as_p }}
+
+
+                <!--                <div class="form-group">-->
+                <!--                    <label for="id_title">Title</label>-->
+                <!--                    <input class="form-control" type="text" name="title" id="id_title" placeholder="Title" required-->
+                <!--                           autofocus>-->
+                <!--                </div>-->
+
+                <!--                &lt;!&ndash;category&ndash;&gt;-->
+                <!--                <div class="form-group">-->
+                <!--                    <label for="id_title">Category</label>-->
+                <!--                    {{ form.category }}-->
+                <!--                </div>-->
+
+                <!--                &lt;!&ndash; Body &ndash;&gt;-->
+                <!--                <div class="form-group">-->
+                <!--                    <label for="id_body">Body</label>-->
+                <!--                    <textarea class="form-control" rows="10" type="text" name="body" id="id_body"-->
+                <!--                              placeholder="This blog is about..." required></textarea>-->
+                <!--                </div>-->
+
+                <!--                &lt;!&ndash; Image &ndash;&gt;-->
+                <!--                <div class="form-group">-->
+                <!--                    <label for="id_image">Image</label>-->
+                <!--                    <input type="file" name="image" id="id_image" accept="image/*">-->
+                <!--                </div>-->
+
+                <!--                &lt;!&ndash; Slug &ndash;&gt;-->
+                <!--                <div class="form-group">-->
+                <!--                    <label for="id_title">Slug</label>-->
+                <!--                    <input class="form-control" type="text" name="slug" id="id_slug" placeholder="Slug" required>-->
+                <!--                </div>-->
+
+
+                <!-- Terms and conditions -->
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="Checkbox" required>
+                    <label class="form-check-label" for="Checkbox">By posting, I accept the <a href="{% url 'terms' %}">
+                        Terms &
+                        conditions</a> and <a href="{% url 'policies' %}">Privacy policies</a>.</label>
                 </div>
-			{% endif %}
-
-			<form class="create-form" method="post" enctype="multipart/form-data">
-				{% csrf_token %}
-
-				<!-- title -->
-				<div class="form-group">
-					<label for="id_title">Title</label>
-					<input class="form-control" type="text" name="title" id="id_title" placeholder="Title" required autofocus>
-				</div>
-
-				<!-- Body -->
-				<div class="form-group">
-					<label for="id_body">Body</label>
-					<textarea class="form-control" rows="10" type="text" name="body" id="id_body" placeholder="This blog is about..." required></textarea>
-				</div>
-
-				<!-- Image -->
-				<div class="form-group">
-					<label for="id_image">Image</label>
-					<input  type="file" name="image" id="id_image" accept="image/*">
-				</div>
-
-				<!-- Slug -->
-				<div class="form-group">
-					<label for="id_title">Slug</label>
-					<input class="form-control" type="text" name="slug" id="id_slug" placeholder="Slug" required>
-				</div>
-
-				<!-- Terms and conditions -->
-				<div class="mb-3 form-check">
-					<input type="checkbox" class="form-check-input" id="Check" required>
-					<label class="form-check-label" for="Check">By posting, I accept the <a href=""> terms and conditions</a> and <a href="">privacy policy</a>.</label>
-				</div>
 
 
-				<!-- Submit btn -->
-				<button class="submit-button btn btn-lg btn-danger" type="submit">Post</button>
-				<a href="/" class="btn btn-lg btn-danger">Cancel</a>
-			</form>
-		</div>
-	</div>
+                <!-- Submit btn --><br>
+                <button class="submit-button btn btn-lg btn-danger" type="submit">Post</button>
+                <a href="home" class="btn btn-lg btn-danger">Cancel</a>
+            </form>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

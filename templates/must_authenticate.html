@@ -2,19 +2,20 @@
 
 {% block content %}
 
-        <div class="container-fluid col-10 mt-5" style="min-height: 75vh;">
-          <div class="row justify-content-center" >
-            <div class="col-md-3" style="text-align: center">
-                <div class="card my-4">
-                    <div class="card-body ">
-                        <h1>oops!</h1>
-                        <p class="card-text">Must authenticate to view this page.</p><hr>
-                        <a href="{% url 'login' %}" class="btn btn-danger">login</a> or
-                        <a href="{% url 'register' %}" class="btn btn-danger">Register</a>
-                    </div>
+<div class="container-fluid col-10 mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-3" style="text-align: center">
+            <div class="card my-4">
+                <div class="card-body ">
+                    <h1>oops!</h1>
+                    <p class="card-text">Must authenticate to view this page.</p>
+                    <hr>
+                    <a href="{% url 'login' %}" class="btn btn-danger">login</a> or
+                    <a href="{% url 'register' %}" class="btn btn-danger">Register</a>
                 </div>
             </div>
-          </div>
         </div>
+    </div>
+</div>
 
 {% endblock content %}

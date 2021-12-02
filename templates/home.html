@@ -3,43 +3,45 @@
 {% block content %}
 
 {% if messages %}
-    {% for message in messages %}
-        <center> <div class="alert alert-success alert-dismissible fade show mt-3" style="width:65%;" role="alert">
-            {{message}}
-            {% if success_message %}
-				<h5 style="color:green; text-align: center;">{{success_message}}</h5>
-			{% endif %}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div></center>
-    {% endfor %}
+{% for message in messages %}
+<center>
+    <div class="alert alert-success alert-dismissible fade show mt-3" style="width:65%;" role="alert">
+        <center>{{message}}</center>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</center>
+{% endfor %}
 {% endif %}
-
-<header class="masthead">
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row">
-            <div class=" col-md-8 col-md-10 mx-auto">
-                <div class="site-heading">
-                    {% if user.is_authenticated %}
+<div class="container-fluid" style="width:68%">
+    <header class="masthead ">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class=" col-md-10">
+                    <div class="site-heading">
+                        {% if user.is_authenticated %}
                         <h4 class=" site-heading my-4 mt-3 text-white"> Hello, {{user.first_name}}! </h4>
-                    {% else %}
-                        <h4 class=" site-heading my-4 mt-3 text-white"> Hello user,&nbsp;<a style="color:#6666ff" href="{% url 'login' %}">login</a>&nbsp;first. </h4>
-                    {% endif %}
-                    <h3 class=" site-heading my-4 mt-3 text-white"> Welcome to my awesome Blog </h3>
-                    <p class="text-light">I Love Blogs As much as you do...
-                    </p>
+                        {% else %}
+                        <h4 class=" site-heading my-4 mt-3 text-white"> Hello user,&nbsp;<a style="color:#6666ff"
+                                                                                            href="{% url 'login' %}">login</a>&nbsp;first.
+                        </h4>
+                        {% endif %}
+                        <h3 class=" site-heading my-4 mt-3 text-white"> Welcome to uBlogs! </h3>
+                        <p class="text-light">I Love Blogs As much as you do...
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</header>
+    </header>
+</div>
 
 {% include 'search.html' %}
 
 <div class="container-fluid col-8" style="text-align: justify">
-    <div class="row" >
+    <div class="row">
         <div class="col-md-8 mt-1 ml-10 left">
             {% for i in object_list %}
             <div class="card mb-5">
@@ -47,18 +49,22 @@
                     <h3 class="card-title">
                         {{ i.title }}
                     </h3>
-                    <p class="card-text text-muted h6">{{ i.author }} | {{ i.created_on}} </p>
+                    <p class="card-text text-muted h6">{{ i.author }} | {{ i.created_on}} | {{i.category }} </p>
                     {% if i.image %}
-                      <img class="card-img-top" src="{{i.image.url}}">
+                    <img class="card-img-top" src="{{i.image.url}}">
                     {% endif %}
                     <p class="card-text">{{i.body|safe|slice:":260" }}</p>
                     <a href="{% url 'detail' i.slug  %}" class="btn btn-danger">Read More &rarr;</a>
-<!--                    <div> {{i.total_like}} <img src="https://img.icons8.com/ios-glyphs/30/000000/filled-like.png"/> </div>-->
+                    <div class="pull-right">
+                        <a style="color:red">{{i.total_likes}}</a>
+                        <img src="https://img.icons8.com/ios-glyphs/30/fa314a/filled-like.png"
+                             height="18px" width="18px">
+                    </div>
                 </div>
             </div>
             {% endfor %}
         </div>
-        {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
+        {% include 'sidebar.html' %}
     </div>
 </div>
 

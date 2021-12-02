@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'articles',
     'members',
     'captcha',
+    'crispy_forms',
+    'ckeditor',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -103,7 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kathmandu'
 
 USE_I18N = True
 
@@ -128,4 +131,3 @@ EMAIL_PORT = 2525
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "12ab69c0e5faab"
 EMAIL_HOST_PASSWORD = "5b582a23f69edb"
-

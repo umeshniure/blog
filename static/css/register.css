@@ -1,4 +1,4 @@
-.log {
+.log, .signupbtn {
   background-color: #1DB27C;
   color: white;
   width: 100%;
@@ -8,7 +8,7 @@
   display: inline-block;
 }
 
-.log:hover, .log:active {
+.log:hover, .signupbtn:hover, .log:active {
   background-color: #04AA6D;
   text-decoration: none;
   color: white;
@@ -38,14 +38,13 @@ hr {
 }
 
 /* Set a style for all buttons */
-button {
+.button {
   background-color: #04AA6D;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
   border: none;
   cursor: pointer;
-  width: 100%;
   opacity: 0.9;
 }
 

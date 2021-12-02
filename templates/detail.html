@@ -3,183 +3,196 @@
 
 {% block content %}
 
-<div class="container mt-2 col-7"><a class="btn btn-danger" href="{% url 'home' %}" role="button"><img src="https://img.icons8.com/ios-glyphs/25/ffffff/circled-chevron-left.png"/> Back</a></div>
+<div class="container mt-2 col-7"><a class="btn btn-danger" href="{% url 'home' %}" role="button"><img
+        src="https://img.icons8.com/ios-glyphs/25/ffffff/circled-chevron-left.png"/> Back</a></div>
 <div class="container-fluid col-7" style="text-align: justify">
-  <div class="row">
-    <div class="col-md-8 card mb-4 mt-1 left">
+    <div class="row">
+        <div class="col-md-8 card mb-4 mt-1 left">
 
-      <div class="card-body">
+            <div class="card-body">
 
-        <h3> {{ post.title }} </h3>
-        <p class="text-muted">{{ post.author }} | Last Update ({{ post.updated_on }})</p>
+                <h3> {{ post.title }} </h3>
+                <p class="text-muted">{{ post.author }} | Last Update ({{ post.updated_on }})</p>
 
-          {% if post.image %}
-          <img class="card-img-top" src="{{post.image.url}}">
-          {% endif %}
-        <p class="card-text ">{{ post.body | safe }}</p>
-              <form method="POST" action="{% url 'like_post' post.slug %}">
-              {% csrf_token %}
-              {% if liked %}
-                  <button type="submit" name="post_slug" value="{{post.slug}}" class="btn btn-danger">
-                      <img src="https://img.icons8.com/material/24/ffffff/dislike.png"/> Unlike
-                  </button>
-              {% else %}
-                  <button type="submit" name="post_slug" value="{{post.slug}}" class="btn btn-danger">
-                      <img src="https://img.icons8.com/material/24/ffffff/filled-like--v1.png"/> Like
-                  </button>
-              {% endif %}
-              <h7 class="text-muted">- {{total_like}} Likes</h7>
-          </form>
-      </div>
+                {% if post.image %}
+                <img class="card-img-top" src="{{post.image.url}}">
+                {% endif %}
+                <p class="card-text ">{{ post.body | safe }}</p>
+                <form method="POST" action="{% url 'like_post' post.slug %}">
+                    {% csrf_token %}
+                    {% if liked %}
+                    <button type="submit" name="post_slug" value="{{post.slug}}" class="btn btn-danger"
+                            style="width:15vh">
+                        <img src="https://img.icons8.com/material/24/ffffff/dislike.png"/> Unlike
+                    </button>
+                    {% else %}
+                    <button type="submit" name="post_slug" value="{{post.slug}}" class="btn btn-danger"
+                            style="width:15vh">
+                        <img src="https://img.icons8.com/material/24/ffffff/filled-like--v1.png"/> Like
+                    </button>
+                    {% endif %}
+                    <h7 class="text-muted">- {{total_like}} Likes</h7>
+                </form>
+            </div>
 
-    </div>
-     {% include 'sidebar.html' %}
+        </div>
+        {% include 'sidebar.html' %}
 
 
-    <div class="col-md-8 card mb-4  mt-3 ">
-      <div class="card-body">
-              <!-- comments -->
-              <h4>{{ comments.count }} Comments</h4><hr>
+        <div class="col-md-8 card mb-4  mt-3 ">
+            <div class="card-body">
+                <!-- comments -->
+                <h4>{{ comments.count }} Comments</h4>
+                <hr>
 
-              {% for comment in comments %}
-              <div class="comments" style="padding: 10px;">
-                <p class="font-weight-bold">
-                    {{ comment.name }}&nbsp;
-                      <span class=" text-muted font-weight-normal">
+                {% for comment in comments %}
+                <div class="comments" style="padding: 10px;">
+                    <p class="font-weight-bold">
+                        {{ comment.name }}&nbsp;
+                        <span class=" text-muted font-weight-normal">
                     ({{ comment.created_on }})
                   </span>
-                </p>
-                {{ comment.body }}<hr>
-              </div>
-              {% endfor %}
+                    </p>
+                    {{ comment.body }}
+                    <hr>
+                </div>
+                {% endfor %}
             </div>
-          </div>
-          <div class="col-md-8 card mb-4  mt-3 ">
+        </div>
+        <div class="col-md-8 card mb-4  mt-3 ">
 
-<!--                 {% if new_comment %}-->
-<!--                <div class="alert alert-warning alert-dismissible fade show" role="alert">-->
+            <!--                 {% if new_comment %}-->
+            <!--                <div class="alert alert-warning alert-dismissible fade show" role="alert">-->
 
-<!--                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
-<!--                        <span aria-hidden="true">&times;</span>-->
-<!--                    </button>-->
-<!--                    Your comment is waiting for admins approval.-->
-<!--                </div>-->
+            <!--                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
+            <!--                        <span aria-hidden="true">&times;</span>-->
+            <!--                    </button>-->
+            <!--                    Your comment is waiting for admins approval.-->
+            <!--                </div>-->
 
 
-<!--              {% else %}-->
-<!--                <h3>Leave a comment</h3>-->
-<!--                <form method="post" style="margin-top: 1.3em;">-->
-<!--                    {{ comment_form.as_p }}-->
-<!--                    {% csrf_token %}-->
-<!--                    <button type="submit" class="btn btn-primary  btn-lg">Submit</button>-->
-<!--                </form>-->
-                <div class="smart-wrap">
-                    <div class="smart-forms smart-container wrap-3">
+            <!--              {% else %}-->
+            <!--                <h3>Leave a comment</h3>-->
+            <!--                <form method="post" style="margin-top: 1.3em;">-->
+            <!--                    {{ comment_form.as_p }}-->
+            <!--                    {% csrf_token %}-->
+            <!--                    <button type="submit" class="btn btn-primary  btn-lg">Submit</button>-->
+            <!--                </form>-->
+            <div class="smart-wrap">
+                <div class="smart-forms smart-container wrap-3">
 
-            <div class="form-header header-blue">
-                <h4><i class="fa fa-comments"></i> Please comment </h4>
-            </div><!-- end .form-header section -->
+                    <div class="form-header header-blue">
+                        <h4><i class="fa fa-comments"></i> Please comment </h4>
+                    </div><!-- end .form-header section -->
 
-            <form method="POST" action="{% url 'submit' post.slug %}">
-                {% csrf_token %}
+                    <form method="POST" action="{% url 'submit' post.slug %}">
+                        {% csrf_token %}
 
-                <div class="form-body theme-blue">
+                        <div class="form-body theme-blue">
 
-                    <div class="section">
-                        <label class="field prepend-icon">
-                            <input type="text" name="name" class="gui-input" placeholder="Enter name" required>
-                            <span class="field-icon"><i class="fa fa-user"></i></span>
-                        </label>
-                    </div><!-- end section -->
+                            <div class="section">
+                                <label class="field prepend-icon">
+                                    <input type="text" name="name" class="gui-input" placeholder="Enter name"
+                                           value="{{ request.user.first_name}} {{request.user.last_name}}" required>
+                                    <span class="field-icon"><i class="fa fa-user"></i></span>
+                                </label>
+                            </div><!-- end section -->
 
-                    <div class="section">
-                        <label class="field prepend-icon">
-                            <input type="email" name="email" class="gui-input" placeholder="Enter e-mail" required>
-                            <span class="field-icon"><i class="fa fa-envelope"></i></span>
-                        </label>
-                    </div><!-- end section -->
+                            <div class="section">
+                                <label class="field prepend-icon">
+                                    <input type="email" name="email" class="gui-input" placeholder="Enter e-mail"
+                                           value="{{ request.user.email }}" required>
+                                    <span class="field-icon"><i class="fa fa-envelope"></i></span>
+                                </label>
+                            </div><!-- end section -->
 
-                    <div class="section">
-                        <label class="field prepend-icon">
-                            <textarea class="gui-textarea" name="body" placeholder="Enter comment" required></textarea>
-                            <span class="field-icon"><i class="fa fa-comments"></i></span>
-                            <span class="input-hint">
+                            <div class="section">
+                                <label class="field prepend-icon">
+                                    <textarea class="gui-textarea" name="body" placeholder="Enter comment"
+                                              required></textarea>
+                                    <span class="field-icon"><i class="fa fa-comments"></i></span>
+                                    <span class="input-hint">
                                 Enter your suggestions and comment on this article.
                             </span>
-                        </label>
-                    </div><!-- end section -->
+                                </label>
+                            </div><!-- end section -->
 
-<!--                    <div class="section">-->
-<!--                        <label class="option option-blue">-->
-<!--                            <input type="checkbox" name="check1" disabled>-->
-<!--                            <span class="checkbox"></span> Notify me with comment updates-->
-<!--                        </label>-->
-<!--                    </div>&lt;!&ndash; end section &ndash;&gt;-->
+                            <!--                    <div class="section">-->
+                            <!--                        <label class="option option-blue">-->
+                            <!--                            <input type="checkbox" name="check1" disabled>-->
+                            <!--                            <span class="checkbox"></span> Notify me with comment updates-->
+                            <!--                        </label>-->
+                            <!--                    </div>&lt;!&ndash; end section &ndash;&gt;-->
 
 
-<!--                    <div class="spacer-b30">-->
-<!--                        <div class="tagline"><span>Just a moment </span></div>&lt;!&ndash; .tagline &ndash;&gt;-->
-<!--                    </div>-->
+                            <!--                    <div class="spacer-b30">-->
+                            <!--                        <div class="tagline"><span>Just a moment </span></div>&lt;!&ndash; .tagline &ndash;&gt;-->
+                            <!--                    </div>-->
 
-<!--                    <div class="section">-->
+                            <!--                    <div class="section">-->
 
-<!--                        <span class="rating block">-->
+                            <!--                        <span class="rating block">-->
 
-<!--                            <span class="lbl-text">Rate this article</span>-->
+                            <!--                            <span class="lbl-text">Rate this article</span>-->
 
-<!--                            <input class="rating-input" id="five-stars" type="radio" name="article-rate">-->
-<!--                            <label class="rating-star" for="five-stars"><i class="fa fa-star"></i></label>-->
+                            <!--                            <input class="rating-input" id="five-stars" type="radio" name="article-rate">-->
+                            <!--                            <label class="rating-star" for="five-stars"><i class="fa fa-star"></i></label>-->
 
-<!--                            <input class="rating-input" id="four-stars" type="radio" name="article-rate">-->
-<!--                            <label class="rating-star" for="four-stars"><i class="fa fa-star"></i></label>-->
+                            <!--                            <input class="rating-input" id="four-stars" type="radio" name="article-rate">-->
+                            <!--                            <label class="rating-star" for="four-stars"><i class="fa fa-star"></i></label>-->
 
-<!--                            <input class="rating-input" id="three-stars" type="radio" name="article-rate" checked>-->
-<!--                            <label class="rating-star" for="three-stars"><i class="fa fa-star"></i></label>-->
+                            <!--                            <input class="rating-input" id="three-stars" type="radio" name="article-rate" checked>-->
+                            <!--                            <label class="rating-star" for="three-stars"><i class="fa fa-star"></i></label>-->
 
-<!--                            <input class="rating-input" id="two-stars" type="radio" name="article-rate">-->
-<!--                            <label class="rating-star" for="two-stars"><i class="fa fa-star"></i></label>-->
+                            <!--                            <input class="rating-input" id="two-stars" type="radio" name="article-rate">-->
+                            <!--                            <label class="rating-star" for="two-stars"><i class="fa fa-star"></i></label>-->
 
-<!--                            <input class="rating-input" id="one-star" type="radio" name="article-rate">-->
-<!--                            <label class="rating-star" for="one-star"><i class="fa fa-star"></i></label>-->
+                            <!--                            <input class="rating-input" id="one-star" type="radio" name="article-rate">-->
+                            <!--                            <label class="rating-star" for="one-star"><i class="fa fa-star"></i></label>-->
 
-<!--                        </span>-->
+                            <!--                        </span>-->
 
-<!--                    </div>&lt;!&ndash; end  section &ndash;&gt;-->
+                            <!--                    </div>&lt;!&ndash; end  section &ndash;&gt;-->
 
-                </div><!-- end .form-body section -->
+                        </div><!-- end .form-body section -->
 
-                <table style="border: 2px solid #ECEEF4">
-                    <tr>
-                        <td align="center"><img height="70px" width="70px" src="{% static 'images/captchalogo.png' %}"></td>
-                        <td align="center" style="background-color: beige;"><canvas id="myCanvas" height="80px" width=100%  style="background-color: beige;"></canvas></td>
-                    </tr>
-                    <tr>
-                        <td><input name="cap" type="text" class="form-control form-control-lg" placeholder="Enter captcha here" required></td>
-                        <td align="center" width="auto">
-                            {% if messages %}
-                                {% for message in messages %}
+                        <table style="border: 2px solid #ECEEF4">
+                            <tr>
+                                <td align="center"><img height="70px" width="70px"
+                                                        src="{% static 'images/captchalogo.png' %}"></td>
+                                <td align="center" style="background-color: beige;">
+                                    <canvas id="myCanvas" height="80px" width=100%
+                                            style="background-color: beige;"></canvas>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input name="cap" type="text" class="form-control form-control-lg"
+                                           placeholder="Enter captcha here" required></td>
+                                <td align="center" width="auto">
+                                    {% if messages %}
+                                    {% for message in messages %}
                                     <h6 style="color:#f84c4c;"> <--- {{message}}</h6>
-                                {% endfor %}
-                            {% else %}
-                                <h6 style="color: #6fb7d3">Enter above captcha in the box.</h6>
-                            {% endif %}
-                        </td>
-                    </tr>
-                </table>
-                <br>
-                <div class="form-footer">
-                    <button type="submit" class="button btn-danger">Post Comment</button>
-                </div><!-- end .form-footer section -->
-            </form>
+                                    {% endfor %}
+                                    {% else %}
+                                    <h6 style="color: #6fb7d3">Enter above captcha in the box.</h6>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                        <br>
+                        <div class="form-footer">
+                            <button type="submit" class="button btn-danger" style="width:20vh">Post Comment</button>
+                        </div><!-- end .form-footer section -->
+                    </form>
 
-        </div><!-- end .smart-forms section -->
-    </div><!-- end .smart-wrap section -->
-
-
-              {% endif %}
+                </div><!-- end .smart-forms section -->
+            </div><!-- end .smart-wrap section -->
 
 
-      </div>
+            {% endif %}
+
+
+        </div>
     </div>
 </div>
 </div>
@@ -192,6 +205,27 @@
     ctx.fillStyle = "red";
     ctx.textAlign = "center";
     ctx.fillText("{{cap}}", canvas.width/2, canvas.height/1.7);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
 
 {% endblock content %}

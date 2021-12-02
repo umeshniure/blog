@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import context
 from django.views.generic import ListView
-from .models import Article
+from .models import Article, Categories
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import CommentForm, CreateBlogPostForm, UpdateBlogPostForm
@@ -12,6 +12,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Create your views here.
+
+
+def privacy_view(request):
+    return render(request, 'privacy_policy.html', {})
+
+
+def terms_view(request):
+    return render(request, 'terms_conditions.html', {})
 
 
 def like_post(request, slug):
@@ -42,8 +50,10 @@ def search(request):
     if request.method == "GET":
         searched = request.GET.get('search_value')
         print(searched)
-        post_title = Article.objects.all().filter(title__contains=searched)
-        print(post_title)
+        post_title = Article.objects.filter(title__contains=searched)
+        print(searched)
+        # post_body = Article.objects.filter(body__icontains=searched)
+        # post = post_title.union(post_body)
         return render(request, 'search_page.html', {'post_title': post_title, 'searched': searched})
     else:
         return render(request, 'search_page.html')
@@ -56,6 +66,8 @@ def create_blog_view(request):
     if not user.is_authenticated:
         return redirect('must_authenticate')
 
+    # categories = Categories.objects.all()
+
     form = CreateBlogPostForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         obj = form.save(commit=False)
@@ -66,6 +78,9 @@ def create_blog_view(request):
         messages.info(request,
                       'Congratulations! Your post has been submitted successfully. Admin will verify and approve your post.')
         form = CreateBlogPostForm()
+    # else:
+    #     messages.info(request,'Invalid Form! Your form has not been submitted. Please Try again.')
+    # context = {'form': form, 'categories': categories}
     context['form'] = form
     return render(request, 'create_blog.html', context)
 
@@ -82,12 +97,12 @@ def update_blog_view(request, slug):
         if form.is_valid():
             obj = form.save(commit=False)
             obj.save()
-            context['success_message'] = "Updated!"
+            context['success_message'] = "Congratulations! your post has been updated."
             blog_post = obj
 
     form = UpdateBlogPostForm(
         initial={'title': blog_post.title, 'body': blog_post.body, 'image': blog_post.image or None,
-                 'slug': blog_post.slug})
+                 'slug': blog_post.slug, 'category': blog_post.category})
     context['form'] = form
     return render(request, 'edit_blog.html', context)
 
@@ -104,7 +119,7 @@ def articledetailview(request, slug):
     if post.likes.filter(id=request.user.id).exists():
         liked = True
     new_comment = None
-    comment_form = CommentForm()
+    comment_form = CommentForm(instance=request.user)
     num = random.randrange(11111, 99999)
     global str_num
     str_num = str(num)

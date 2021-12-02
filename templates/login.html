@@ -3,30 +3,20 @@
 
 {% block content %}
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{% static '/css/login.css' %}">
-        <title>Sign Up</title>
-    </head>
-    <body>
-
-    <form action="{% url 'login' %}" method="post">
-        {% csrf_token %}
-        <div class="container">
-            <h4>Welcome Back!</h4>
-            <p>Please fill in this form to log in.</p>
-            <hr>
-        </div>
+<form action="{% url 'login' %}" method="post" style="border:0px solid #ccc">
+    {% csrf_token %}
+    <div class="container">
+        <h4>Welcome Back!</h4>
+        <p>Please fill in this form to log in.</p>
+        <hr>
+    </div>
     <div class="imgcontainer">
         <i class='fas fa-user-circle iconic iconic-lg ' style="font-size:20vw; color:#323232"></i>
     </div>
 
     <div class="container">
         {% for message in messages %}
-          <h7 style="color:#e50000;"> {{message}}<br></h7>
+        <h7 style="color:#e50000;"> {{message}}<br></h7>
         {% endfor %}
         <div class="form-group">
             <label for="username"><b>Username</b></label>
@@ -35,33 +25,36 @@
         <div class="form-group input-group">
             <label for="password"><b>Password</b></label>
             <div class="input-group">
-                <input style="margin: 0px 0;" class="form-control" type="password" placeholder="Enter Password" name="password" id="password" data-toggle="password" required>
+                <input style="margin: 0px 0;" class="form-control" type="password" placeholder="Enter Password"
+                       name="password" id="password" data-toggle="password" required>
                 <div class="input-group-append">
                     <div class="input-group-text" onclick="myFunction()">
-                        <i class="fa fa-eye"  id="show"></i>
+                        <i class="fa fa-eye" id="show"></i>
                         <i class="fa fa-eye-slash" id="hide"></i>
                     </div>
                 </div>
             </div>
         </div>
 
-    <!--    <label>-->
-    <!--      <input type="checkbox" checked="checked" name="remember"> Remember me-->
-    <!--    </label>-->
+        <!--    <label>-->
+        <!--      <input type="checkbox" checked="checked" name="remember"> Remember me-->
+        <!--    </label>-->
         <div class="clearfix">
-        <!--      <button type="button" class="cancelbtn">Cancel</button>-->
-                  <button type="submit" class="up">Log In</button>
+            <!--      <button type="button" class="cancelbtn">Cancel</button>-->
+            <button type="submit" class="up">Log In</button>
         </div>
-          <center> <label class="psw">You don't know your <a href="{% url 'password_reset' %}">password?</a></label></center>
-          <div class="clearfix">
-              <br><center> <h6 style="color: grey">Or</h6> Create your account below!</center>
-              <a class="up" href="{% url 'register' %}">Sign Up</a>
-          </div>
+        <center><label class="psw">You don't know your <a href="{% url 'password_reset' %}">password?</a></label>
+        </center>
+        <div class="clearfix">
+            <br>
+            <center><h6 style="color: grey">Or</h6> Create your account below!</center>
+            <a class="up" href="{% url 'register' %}">Sign Up</a>
+        </div>
     </div>
 
 </form>
 <script type="text/javascript">
- document.getElementById("hide").style.display = "none"
+document.getElementById("hide").style.display = "none"
 function myFunction() {
   var x = document.getElementById("password");
   if (x.type === "password") {
@@ -75,7 +68,7 @@ function myFunction() {
     document.getElementById("show").style.display = "inline-block"
   }
 }
+
 </script>
-    </body>
-    </html>
+
 {% endblock %}
